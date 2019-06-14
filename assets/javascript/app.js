@@ -75,14 +75,14 @@ database.ref().on("child_added", function(childSnapshot){
   var remainder = diffTime % frequency;
   var minutesAway =  frequency - remainder;
   var nextArrival = moment().add(minutesAway, "minutes").format("HH:mm");
- 
+  var firstTrainFormatted = moment(firstTrain, "HH:mm").format("HH:mm");
 
   // create new row
 
   var newRow= $("<tr>").append(
     $("<td>").text(trainName),
     $("<td>").text(destination),
-    $("<td>").text(moment(firstTrain,"HH:mm")),
+    $("<td>").text(firstTrainFormatted),
     $("<td>").text(frequency),
     $("<td>").text(nextArrival),
     $("<td>").text(minutesAway),
