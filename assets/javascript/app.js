@@ -28,6 +28,7 @@ destination= $("#destination-input").val().trim();
 firstTrain = $("#first-input").val().trim();
 frequency = $("#frequency-input").val().trim();
 
+
 // temporary object
 var newTrain = {
   trainName: trainName,
@@ -67,15 +68,21 @@ database.ref().on("child_added", function(childSnapshot){
   console.log(frequency);
 
   // figure out momentjs calculations
-  var nextArrival = "momentjs"
-  var minutesAway = "momenjs"
+  var firstTrainConverted = moment(firstTrain, "HH:mm").subtract(1, "years");
+  console.log(firstTrainConverted);
+  var diffTime = moment().diff(moment(firstTrainConverted), "minutes");
+  console.log("DIFFERENCE IN TIME: " + diffTime);
+  var remainder = diffTime % frequency;
+  var minutesAway =  frequency - remainder;
+  var nextArrival = moment().add(minutesAway, "minutes").format("HH:mm");
+ 
 
   // create new row
 
   var newRow= $("<tr>").append(
     $("<td>").text(trainName),
     $("<td>").text(destination),
-    $("<td>").text(firstTrain),
+    $("<td>").text(moment(firstTrain,"HH:mm")),
     $("<td>").text(frequency),
     $("<td>").text(nextArrival),
     $("<td>").text(minutesAway),
